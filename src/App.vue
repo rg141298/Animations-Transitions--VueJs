@@ -3,20 +3,23 @@
     <div class="block" :class='{animate:animatedBlock}'></div>
     <button @click='animateBlock'>Animate</button>
   </div>
+
   <div class='container'>
     <transition name='para'>
       <p v-if='paraIsVisible'>This is only sometimes visible...</p>
     </transition>
     <button @click='toggleParagraph'>Toggle Paragraph</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
-    <p>This is a test dialog!</p>
-    <button @click="hideDialog">Close it!</button>
-  </base-modal>
+
+    <base-modal @close='hideDialog' :open='dialogIsVisible'>
+      <p>This is a test dialog!</p>
+      <button @click='hideDialog'>Close it!</button>
+    </base-modal>
+
   <div class="container">
     <button @click="showDialog">Show Dialog</button>
   </div>
-</template>  
+</template>
 
 <script>
 export default {
@@ -119,6 +122,9 @@ button:active {
   /*opacity: 0;*/
   /*transform: translateY(-30);*/
 }
+
+
+
 
 
 
