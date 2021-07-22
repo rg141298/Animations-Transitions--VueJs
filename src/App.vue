@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="block" :class='{animate:animatedBlock}'></div>
+  <div class='container'>
+    <div class='block' :class='{animate:animatedBlock}'></div>
     <button @click='animateBlock'>Animate</button>
   </div>
 
@@ -11,13 +11,20 @@
     <button @click='toggleParagraph'>Toggle Paragraph</button>
   </div>
 
-    <base-modal @close='hideDialog' :open='dialogIsVisible'>
-      <p>This is a test dialog!</p>
-      <button @click='hideDialog'>Close it!</button>
-    </base-modal>
+  <div class='container'>
+    <transition name='fade-button' mode='out-in'>
+      <button @click='showUsers' v-if='!usersAreVisible'>Show Users</button>
+      <button @click='hideUsers' v-else>Hide Users</button>
+    </transition>
+  </div>
 
-  <div class="container">
-    <button @click="showDialog">Show Dialog</button>
+  <base-modal @close='hideDialog' :open='dialogIsVisible'>
+    <p>This is a test dialog!</p>
+    <button @click='hideDialog'>Close it!</button>
+  </base-modal>
+
+  <div class='container'>
+    <button @click='showDialog'>Show Dialog</button>
   </div>
 </template>
 
@@ -25,9 +32,10 @@
 export default {
   data() {
     return {
-      animatedBlock:false,
+      animatedBlock: false,
       dialogIsVisible: false,
-      paraIsVisible:false,
+      paraIsVisible: false,
+      usersAreVisible: false
     };
   },
   methods: {
@@ -37,13 +45,20 @@ export default {
     hideDialog() {
       this.dialogIsVisible = false;
     },
-    animateBlock(){
-      this.animatedBlock=!this.animatedBlock;
+    animateBlock() {
+      this.animatedBlock = !this.animatedBlock;
     },
-    toggleParagraph(){
-      this.paraIsVisible=!this.paraIsVisible
+    toggleParagraph() {
+      this.paraIsVisible = !this.paraIsVisible;
+    },
+    showUsers() {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
+
     }
-  },
+  }
 };
 </script>
 
@@ -51,12 +66,15 @@ export default {
 * {
   box-sizing: border-box;
 }
+
 html {
   font-family: sans-serif;
 }
+
 body {
   margin: 0;
 }
+
 button {
   font: inherit;
   padding: 0.5rem 2rem;
@@ -66,11 +84,13 @@ button {
   color: white;
   cursor: pointer;
 }
+
 button:hover,
 button:active {
   background-color: #a80b48;
   border-color: #a80b48;
 }
+
 .block {
   width: 8rem;
   height: 8rem;
@@ -78,6 +98,7 @@ button:active {
   margin-bottom: 2rem;
   /*transition: transform 0.3s ease-out;*/
 }
+
 .container {
   max-width: 40rem;
   margin: 2rem auto;
@@ -89,53 +110,67 @@ button:active {
   border: 2px solid #ccc;
   border-radius: 12px;
 }
-.animate{
+
+.animate {
   /*transform: translateX(-150px);*/
   animation: slide-fade 0.3s ease-out forwards;
 }
 
-.para-enter-from{
+.para-enter-from {
   /*opacity: 0;*/
   /*transform: translateY(-30px);*/
 }
 
-.para-enter-active{
+.para-enter-active {
   /*transition: all 0.3s ease-out;*/
   animation: slide-scale 0.3s ease-out;
 }
-.para-enter-to{
+
+.para-enter-to {
   /*opacity: 1;*/
   /*transform: translateY(0);*/
 }
 
-.para-leave-from{
+.para-leave-from {
   /*opacity: 0;*/
   /*transform: translateY(0);*/
 }
 
-.para-leave-active{
+.para-leave-active {
   /*transition: all 0.3s ease-in;*/
   animation: slide-scal 0.3s ease-out;
 }
 
-.para-leave-to{
+.para-leave-to {
   /*opacity: 0;*/
   /*transform: translateY(-30);*/
 }
 
-
-
-
+.fade-button-enter-from,
+.fade-button-leave-to
+{
+  opacity: 0;
+}
+.fade-button-enter-active{
+  transition: opacity 0.3s ease-out;
+}
+.fade-button-leave-active{
+  transition: opacity 0.3s ease-in;
+}
+.fade-button-enter-to,
+.fade-button-leave-from{
+  opacity: 1;
+}
 
 
 @keyframes slide-scale {
   0% {
     transform: translateX(0) scale(1);
   }
-  70%{
+  70% {
     transform: translateX(-120px) scale(1.1);
   }
-  100%{
+  100% {
     transform: translateX(-150px) scale(1);
   }
 }
